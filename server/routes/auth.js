@@ -11,6 +11,13 @@ const dbo = require("../db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
+
+var ldap = require('ldapjs');
+var client = ldap.createClient({
+  url: 'ldap://ldap.soton.ac.uk/OU=User,DC=soton,DC=ac,DC=uk'
+});
+
+
 app.route("/attention").get(function (req, res) {
   res.json({
     attention: 0,
@@ -18,7 +25,26 @@ app.route("/attention").get(function (req, res) {
   })
 });
 
+
 app.route("/login").get(function (req, res) {
+  var opts = {
+    filter: '(cn=tgp1g21)',
+    scope: 'sub',
+    attributes: ['name']
+  };
+  
+  client.bind("", "", function (err) {
+    client.search('OU=User,DC=soton,DC=ac,DC=uk', opts, function (err, search) {
+      search.on('searchEntry', function (entry) {
+        if(entry.object){
+          console.log('entry: %j ' + JSON.stringify(entry.object));
+        }
+      });
+      search.on('error', function(error) {
+        console.error('error: ' + error.message);
+      });
+    });
+  });
   session=req.session;
   session.userid="A User";
   console.log(req.session)
