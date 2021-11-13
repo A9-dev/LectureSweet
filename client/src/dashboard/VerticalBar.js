@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import Rating from '@mui/material/Rating';
 import Tooltip from '@mui/material/Tooltip';
@@ -9,11 +9,22 @@ function VerticalBar() {
   const axios = require('axios');
   const [understanding, setUnderstanding] = useState([]);
 
-  // axios.get("http://localhost:5000/understanding").then(function (response) {
-  //   setUnderstanding(response);
-  // }).catch(function (error) {
-  //   console.log(error);
-  // })
+  useEffect(() => {
+    // Update the document title using the browser API
+
+    axios.get("http://localhost:5000/get-data").then(function (response) {
+
+      console.log(response);
+      console.log(Object.values(response.data));
+      setUnderstanding(Object.values(response.data));
+      console.log("TEWTWATWAT");
+      console.log(understanding);
+
+    }).catch(function (error) {
+      console.log("TWEATETATETEAT");
+      console.log(error);
+    })
+  }, []);
 
   const average = (arr) => {
     var sumRatings = 0;

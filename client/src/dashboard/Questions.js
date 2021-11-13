@@ -17,13 +17,9 @@ function ChatList() {
 
         axios.get("http://localhost:5000/get-questions").then(function (response) {
 
-            console.log(response);
-            console.log(response.data);
             setMessages(response.data);
-            console.log(messages);
 
         }).catch(function (error) {
-            console.log("TWEATETATETEAT");
             console.log(error);
         })
     }, []);
