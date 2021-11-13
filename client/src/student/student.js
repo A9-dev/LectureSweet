@@ -1,12 +1,10 @@
 import Container from '@mui/material/Container';
-import PieChart from "./PieChart.js";
-function App() {
+function Student() {
   return (
       <Container maxWidth="sm">
-        <PieChart/>    
 
       </Container>
   );
 }
 
-export default App;
+export default Student;
