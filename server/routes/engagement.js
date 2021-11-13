@@ -45,7 +45,17 @@ app.route("/get-data").get(function (req, response) {
     .find({})
     .toArray(function (err, result) {
       if (err) throw err;
-      response.json(result);
+      counter = {};
+      for (data in result) {
+            if (counter[result[data]["understanding"]] != undefined) {
+                previous = counter[result[data]["understanding"]];
+                console.log("Adding 1 to " + previous + "  ::  " + result[data]["understanding"]);
+                counter[result[data]["understanding"]] = previous + 1;
+            } else {
+                counter[result[data]["understanding"]] = 1;
+            }
+      }
+      response.json(counter);
     });
   
 });
