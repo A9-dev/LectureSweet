@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Student from "./student/student"
 import App from "./dashboard/App";
+import Login from "./student/login";
 
 export default function Main() {
   return (
@@ -20,13 +21,16 @@ export default function Main() {
             <li>
               <Link to="/student">Student Input</Link>
             </li>
-           
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
           </ul>
         </nav>
 
         {/* A <Routes> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Routes>
+          <Route path="/student" element={<Login/>}/>
           <Route path="/student" element={<Student/>}/>
           <Route path="/" element={<App/>}/>
           
