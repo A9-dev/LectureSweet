@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Main from './Main';
+import BasicTabs from "./testMain"
 
 ReactDOM.render(
-  <Main />,
+  <BasicTabs />,
   document.getElementById('root')
 );
