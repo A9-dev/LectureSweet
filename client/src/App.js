@@ -1,10 +1,10 @@
 import Container from '@mui/material/Container';
-
+import PieChart from "./PieChart.js";
 function App() {
   return (
     <div className="App">
       <Container maxWidth="sm">
-        wanker
+        <PieChart/>    
 
       </Container>
     </div>
