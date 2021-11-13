@@ -3,30 +3,48 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
+const axios = require('axios');
 
 function ChatList() {
 
-    const axios = require('axios');
     const [messages, setMessages] = useState([]);
 
-    axios.get("http://localhost:5000/get-questions").then(function (response) {
-        setMessages(response);
-        console.log(response);
-    }).catch(function (error) {
-        console.log("TWEATETATETEAT");
-        console.log(error);
-    })
+    useEffect(() => {
+        // Update the document title using the browser API
+
+        axios.get("http://localhost:5000/get-questions").then(function (response) {
+
+            console.log(response);
+            console.log(response.data);
+            setMessages(response.data);
+            console.log(messages);
+
+        }).catch(function (error) {
+            console.log("TWEATETATETEAT");
+            console.log(error);
+        })
+    }, []);
+
 
     return (
-        messages.length ? (
+        (
 
 
             <Box sx={{ border: 1, borderRadius: 1, }}>
                 <List>
+                    {messages.map((item) => (
+                        <ListItem>
+                            <ListItemText
+                                primary={item.student.displayname}
+                                secondary={item.question}
+                            />
+                        </ListItem>
+                    )
 
+                    )}
 
 
                     {/* 
@@ -39,8 +57,8 @@ function ChatList() {
             <Divider /> */}
 
                 </List>
-            </Box>
-        ) : null
+            </Box >
+        )
     );
 
 }
