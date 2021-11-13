@@ -5,6 +5,9 @@ const express = require("express");
 // The router will be added as a middleware and will take control of requests starting with path /record.
 const app = express.Router();
 
+app.use(express.json());
+
+
 // This will help us connect to the database
 const dbo = require("../db/conn");
 
@@ -26,9 +29,10 @@ app.route("/attention").get(function (req, res) {
 });
 
 
-app.route("/login").get(function (req, res) {
+app.route("/login").post(function (req, res) {
+  console.log(req.body);
   var opts = {
-    filter: '(cn=tgp1g21)',
+    filter: '(cn=' + req.body.username + ', employeeNumber=' + req.body.id + ')',
     scope: 'sub',
     attributes: ['name']
   };
