@@ -11,19 +11,6 @@ const dbo = require("../db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
-const cookieParser = require("cookie-parser");
-const sessions = require('express-session');
-
-const oneDay = 1000 * 60 * 60 * 24;
-
-//session middleware
-app.use(sessions({
-  secret: process.env.SESSION_SECRET,
-  saveUninitialized:true,
-  cookie: { maxAge: oneDay },
-  resave: false
-}));
-
 app.route("/attention").get(function (req, res) {
   res.json({
     attention: 0,
