@@ -26,6 +26,7 @@ function Student() {
             </ButtonGroup>
             <br />
             <TextField fullWidth multiine variant="filled" id="outlined-multiline-static" label="Question" />
+            <Button variant="outlined">Outlined</Button>
 
         </Box>
     );
