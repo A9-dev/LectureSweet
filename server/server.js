@@ -23,6 +23,7 @@ app.use(sessions({
 app.use(cors());
 app.use(express.json());
 app.use(require("./routes/auth"));
+app.use(require("./routes/questions"));
 
  
 app.listen(port, () => {

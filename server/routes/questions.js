@@ -13,15 +13,33 @@ const dbo = require("../db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
-app.route("/send-question").post(function (req, res) {
+app.route("/send-question").post(function (req, response) {
     let db_connect = dbo.getDb();
+    session=req.session;
     let myobj = {
-        user: req.body.person_name,
         question: req.body.question,
+        student: {
+            userid: session.userid,
+            displayname: session.displayName
+        }
     };
-    db_connect.collection("records").insertOne(myobj, function (err, res) {
+    db_connect.collection("questions").insertOne(myobj, function (err, res) {
         if (err) throw err;
         response.json(res);
     });
   
 });
+
+app.route("/get-questions").get(function (req, response) {
+    let db_connect = dbo.getDb();
+    db_connect
+    .collection("questions")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) throw err;
+      response.json(result);
+    });
+  
+});
+
+module.exports = app;
