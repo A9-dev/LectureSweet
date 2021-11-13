@@ -15,18 +15,18 @@ const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 // const { session } = require("passport");
 
-app.route("/send-question").post(function (req, response) {
+app.route("/insert-data").post(function (req, response) {
     let db_connect = dbo.getDb();
     session=req.session;
     if (session.userid != null) {
         let myobj = {
-            question: req.body.question,
+            understanding: req.body.understanding,
             student: {
                 userid: session.userid,
                 displayname: session.displayName
             }
         };
-        db_connect.collection("questions").insertOne(myobj, function (err, res) {
+        db_connect.collection("engagement-data").insertOne(myobj, function (err, res) {
             if (err) throw err;
             response.json(res);
         });
@@ -38,10 +38,10 @@ app.route("/send-question").post(function (req, response) {
   
 });
 
-app.route("/get-questions").get(function (req, response) {
+app.route("/get-data").get(function (req, response) {
     let db_connect = dbo.getDb();
     db_connect
-    .collection("questions")
+    .collection("engagement-data")
     .find({})
     .toArray(function (err, result) {
       if (err) throw err;
