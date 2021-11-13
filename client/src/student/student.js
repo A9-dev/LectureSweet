@@ -25,7 +25,7 @@ function Student() {
                 <Button>Five</Button>
             </ButtonGroup>
             <br />
-            <TextField rows={4} fullWidth multiine variant="filled" id="outlined-multiline-static" label="Question" />
+            <TextField fullWidth multiine variant="filled" id="outlined-multiline-static" label="Question" />
 
         </Box>
     );
