@@ -7,36 +7,62 @@ import Box from '@mui/material/Box';
 
 import App from "./dashboard/App"
 import Student from "./student/student"
-import App from "./dashboard/App";
-import Login from "./student/login";
 
-export default function Main() {
-  return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/student">Student Input</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          </ul>
-        </nav>
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
 
-        {/* A <Routes> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Routes>
-          <Route path="/student" element={<Login/>}/>
-          <Route path="/student" element={<Student/>}/>
-          <Route path="/" element={<App/>}/>
-          
-        </Routes>
-      </div>
-    </Router>
-  );
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+export default function BasicTabs() {
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    return (
+        <Box sx={{ width: '100%' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tab label="Dashboard" {...a11yProps(0)} />
+                    <Tab label="Student form" {...a11yProps(1)} />
+                </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+                <App />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <Student />
+            </TabPanel>
+
+        </Box>
+    );
 }
