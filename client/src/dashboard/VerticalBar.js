@@ -9,11 +9,11 @@ function VerticalBar() {
   const axios = require('axios');
   const [understanding, setUnderstanding] = useState([]);
 
-  axios.get("localhost:5000/understanding").then(function (response) {
-    setUnderstanding(response);
-  }).catch(function (error) {
-    console.log(error);
-  })
+  // axios.get("http://localhost:5000/understanding").then(function (response) {
+  //   setUnderstanding(response);
+  // }).catch(function (error) {
+  //   console.log(error);
+  // })
 
   const average = (arr) => {
     var sumRatings = 0;
