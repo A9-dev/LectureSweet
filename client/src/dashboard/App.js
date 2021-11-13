@@ -1,9 +1,13 @@
 import Container from '@mui/material/Container';
 import VerticalBar from "./VerticalBar.js";
+import ChatList from "./Questions.js";
+
 function App() {
   return (
       <Container maxWidth="sm">
-        <VerticalBar/>    
+        <VerticalBar/>  
+        <br/>
+        <ChatList/>  
 
       </Container>
   );
