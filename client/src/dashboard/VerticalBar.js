@@ -16,11 +16,11 @@ const average = (arr) => {
 }
 
 const data = {
-  labels: ['1/5', '2/5', '3/5', '4/5', '5/5'],
+  labels: ['Nothing', 'Little', 'Half', 'Most', 'All'],
   datasets: [
     {
-      label: 'Student\'s Understanding',
-      data: [1, 2, 3, 4, 5],
+      label: 'How much of this lecture\'s content the students understand',
+      data: [15, 32, 59, 32, 19],
       backgroundColor: [
         'rgba(218, 43, 86, 0.5)',
         'rgba(219, 91, 35, 0.5)',
