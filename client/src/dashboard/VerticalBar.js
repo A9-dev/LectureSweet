@@ -4,9 +4,9 @@ import Rating from '@mui/material/Rating';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 
+const axios = require('axios');
 
 function VerticalBar() {
-  const axios = require('axios');
   const [understanding, setUnderstanding] = useState([]);
 
   useEffect(() => {
@@ -14,14 +14,10 @@ function VerticalBar() {
 
     axios.get("http://localhost:5000/get-data").then(function (response) {
 
-      console.log(response);
-      console.log(Object.values(response.data));
       setUnderstanding(Object.values(response.data));
-      console.log("TEWTWATWAT");
-      console.log(understanding);
+
 
     }).catch(function (error) {
-      console.log("TWEATETATETEAT");
       console.log(error);
     })
   }, []);
