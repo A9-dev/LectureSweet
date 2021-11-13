@@ -12,7 +12,7 @@ function ChatList() {
     const axios = require('axios');
     const [messages, setMessages] = useState([]);
 
-    axios.get("localhost:5000/get-questions").then(function (response) {
+    axios.get("http://localhost:5000/get-questions").then(function (response) {
         setMessages(response);
         console.log(response);
     }).catch(function (error) {
