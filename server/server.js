@@ -3,11 +3,27 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config({ path: "./config.env" });
 const port = process.env.PORT || 5000;
-app.use(cors());
-app.use(express.json());
-app.use(require("./routes/record"));
+
 // get driver connection
 const dbo = require("./db/conn");
+
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
+
+const oneDay = 1000 * 60 * 60 * 24;
+
+//session middleware
+app.use(sessions({
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized:true,
+  cookie: { maxAge: oneDay },
+  resave: false
+}));
+
+app.use(cors());
+app.use(express.json());
+app.use(require("./routes/auth"));
+
  
 app.listen(port, () => {
   // perform a database connection when server starts
