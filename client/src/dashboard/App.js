@@ -1,9 +1,9 @@
 import Container from '@mui/material/Container';
-import PieChart from "./PieChart.js";
+import VerticalBar from "./VerticalBar.js";
 function App() {
   return (
       <Container maxWidth="sm">
-        <PieChart/>    
+        <VerticalBar/>    
 
       </Container>
   );

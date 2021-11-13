@@ -1,10 +1,11 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link
-} from "react-router-dom";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+import App from "./dashboard/App"
 import Student from "./student/student"
 import App from "./dashboard/App";
 import Login from "./student/login";
