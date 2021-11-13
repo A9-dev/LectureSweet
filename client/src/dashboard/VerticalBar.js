@@ -9,7 +9,7 @@ function VerticalBar() {
   const axios = require('axios');
   const [understanding, setUnderstanding] = useState([]);
 
-  axios.get("/understanding").then(function (response) {
+  axios.get("localhost:5000/understanding").then(function (response) {
     setUnderstanding(response);
   }).catch(function (error) {
     console.log(error);
