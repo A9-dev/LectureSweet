@@ -30,31 +30,42 @@ app.route("/attention").get(function (req, res) {
 
 
 app.route("/login").post(function (req, res) {
-  console.log(req.body);
   var opts = {
-    filter: '(cn=' + req.body.username + ', employeeNumber=' + req.body.id + ')',
+    filter: '(&(cn=' + req.body.username + ')(employeeNumber=' + req.body.student_id + '))',
     scope: 'sub',
-    attributes: ['name']
+    attributes: ['name', 'displayName']
   };
-  
   client.bind("", "", function (err) {
-    client.search('OU=User,DC=soton,DC=ac,DC=uk', opts, function (err, search) {
-      search.on('searchEntry', function (entry) {
-        if(entry.object){
-          console.log('entry: %j ' + JSON.stringify(entry.object));
-        }
+    foundUser = false;
+    try {
+      client.search('OU=User,DC=soton,DC=ac,DC=uk', opts, function (err, search) {
+        search.on('searchEntry', function (entry) {
+          if(entry.object){
+            console.log(entry.object.displayName + ' logged in');
+            foundUser = true;
+            session=req.session;
+            session.userid=entry.object.name;
+            session.displayName=entry.object.displayName;
+            res.json({
+              authSuccess: true
+            })
+          }
+        });
+        search.on('error', function(error) {
+          console.error('Failed Auth');
+          res.json({
+            authSuccess: false
+          })
+        });
       });
-      search.on('error', function(error) {
-        console.error('error: ' + error.message);
-      });
-    });
+    } catch {
+      res.json({
+        authSuccess: false
+      })
+    }
+    
   });
-  session=req.session;
-  session.userid="A User";
-  console.log(req.session)
-  res.json({
-    authSuccess: true
-  })
+
 });
 
 app.route("/logout").get(function (req, res) {

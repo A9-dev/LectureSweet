@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const axios = require("axios");
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -32,9 +34,20 @@ export default function Login() {
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      student_id: data.get('student_id'),
+      username: data.get('username'),
     });
+    axios.post('http://localhost:5000/login', {
+      student_id: data.get('student_id'),
+      username: data.get('username'),
+    }).then(function(response) {
+      if (response.data.authSuccess) {
+        alert("Logged in");
+      } else {
+        alert("Failed auth");
+      }
+    });
+    
   };
 
   return (
