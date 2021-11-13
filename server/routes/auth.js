@@ -35,16 +35,41 @@ app.route("/login").post(function (req, res) {
     scope: 'sub',
     attributes: ['name', 'displayName']
   };
+  global.currentStudentId = req.body.student_id;
   client.bind("", "", function (err) {
     foundUser = false;
     try {
       client.search('OU=User,DC=soton,DC=ac,DC=uk', opts, function (err, search) {
         search.on('searchEntry', function (entry) {
+
+          let db_connect = dbo.getDb("employees");
           if(entry.object){
+            let myquery = { studentID: global.currentStudentId };
+            db_connect
+                .collection("users")
+                .findOne(myquery, function (err, result) {
+                  if (err) throw err;
+                  console.log(result);
+                  global.queryres = result;
+                });
+            if (global.queryres == null) {
+              let myobj = {
+                name: entry.object.displayName,
+                studentID: global.currentStudentId
+              };
+              db_connect.collection("users").insertOne(myobj, function (err, res) {
+                if (err) throw err;
+                global.userID = res._id;
+              });
+            } else {
+              global.userID = global.queryres._id;
+            }
+
             console.log(entry.object.displayName + ' logged in');
             foundUser = true;
             session=req.session;
             session.userid=entry.object.name;
+            session.dbuserid=global.userID;
             session.displayName=entry.object.displayName;
             res.json({
               authSuccess: true
