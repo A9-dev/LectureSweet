@@ -1,10 +1,7 @@
 import cv2
-import csv
-import datetime
 import requests
 
 interval = 50
-
 
 def movement(img, total, iteration):
     height = img.shape[0]
@@ -30,14 +27,10 @@ def movement(img, total, iteration):
         myobj = {"cameraValue": score}
         requests.post(url, myobj)
 
-        # do something with score
-
     iteration += 1
 
     return total, iteration
 
-
-startTime = datetime.datetime.now().strftime("%H:%M:%S")
 
 cv2.namedWindow("cam")
 vc = cv2.VideoCapture(0)  # opens default camera (could also select a file)
