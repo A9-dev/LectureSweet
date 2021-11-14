@@ -32,28 +32,79 @@ app.use(cookieParser());
 // a variable to save a session
 var session;
 
+var ldap = require('ldapjs');
+var client = ldap.createClient({
+  url: 'ldap://ldap.soton.ac.uk/OU=User,DC=soton,DC=ac,DC=uk'
+});
+
 app.route("/insert-data").post(function (req, response) {
     let db_connect = dbo.getDb();
-    session=req.session;
-    console.log(session);
-    if (session.userid != null) {
-        let myobj = {
-            understanding: req.body.understanding,
-            student: {
-                userid: session.userid,
-                displayname: session.displayName
-            }
-        };
-        db_connect.collection("engagement-data").insertOne(myobj, function (err, res) {
-            if (err) throw err;
-            response.json(res);
-        });
-    } else {
-        response.json({
-            "auth": false
-        });
-    }
-  
+
+    var opts = {
+        filter: '(cn=' + req.body.username + ')',
+        scope: 'sub',
+        attributes: ['name', 'displayName', 'employeeID']
+      };
+      global.currentStudentId = req.body.username;
+      client.bind("", "", function (err) {
+        foundUser = false;
+        try {
+          client.search('OU=User,DC=soton,DC=ac,DC=uk', opts, function (err, search) {
+            search.on('searchEntry', function (entry) {
+              let db_connect = dbo.getDb("employees");
+              if(entry.object){
+                let myquery = { studentID: global.username };
+                db_connect
+                    .collection("users")
+                    .findOne(myquery, function (err, result) {
+                      if (err) throw err;
+                      global.queryres = result;
+                    });
+                if (global.queryres == null) {
+                  let myobj = {
+                    name: entry.object.displayName,
+                    studentID: entry.object.employeeID
+                  };
+                  db_connect.collection("users").insertOne(myobj, function (err, res) {
+                    if (err) throw err;
+                    global.userID = res._id;
+                  });
+                } else {
+                  global.userID = global.queryres._id;
+                }
+                if (entry.object.displayName != null && entry.object.displayName != undefined) {
+                    let myobj = {
+                        understanding: req.body.understanding,
+                        student: {
+                            userid: entry.object.employeeID,
+                            displayname: entry.object.displayName
+                        }
+                    };
+                    db_connect.collection("engagement-data").insertOne(myobj, function (err, res) {
+                        if (err) throw err;
+                        response.json(res);
+                    });
+                } else {
+                    response.json({
+                        "auth": false
+                    });
+                }
+              }
+            });
+            search.on('error', function(error) {
+              console.error('Failed Auth');
+              res.json({
+                authSuccess: false
+              })
+            });
+          });
+        } catch {
+          res.json({
+            authSuccess: false
+          })
+        }
+        
+      });
 });
 
 app.route("/get-data").get(function (req, response) {

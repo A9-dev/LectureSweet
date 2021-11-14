@@ -15,7 +15,7 @@ function submitButtonClicked(q, u, s1, s2, s3, username) {
         console.log(error);
     });
     if (u > 0) {
-        axios.post("http://localhost:5000/insert-data", { "understanding": u })
+        axios.post("http://localhost:5000/insert-data", { understanding: u, username: username  })
 
     }
     s1(-1);
