@@ -1,15 +1,28 @@
-import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import VerticalBar from "./VerticalBar.js";
 import ChatList from "./Questions.js";
-
+import LineChart from "./attentionChart.js"
 function App() {
   return (
-      <Container maxWidth="sm">
-        <VerticalBar/>  
-        <br/>
-        <ChatList/>  
+    <div>
 
-      </Container>
+
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+
+          <VerticalBar />
+          <LineChart />
+
+        </Grid>
+        <Grid item xs={6}>
+
+          <ChatList />
+
+        </Grid>
+
+      </Grid >
+    </div>
+
   );
 }
 
