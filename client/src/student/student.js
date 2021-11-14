@@ -6,10 +6,10 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import axios from 'axios';
 
-function submitButtonClicked(q, u, s1, s2) {
+function submitButtonClicked(q, u, s1, s2, s3, username) {
     console.log(q);
     console.log(u);
-    axios.post("http://localhost:5000/send-question", { "question": q }).then((r) => {
+    axios.post("http://localhost:5000/send-question", { question: q, username: username }).then((r) => {
         console.log(r);
     }).catch(function (error) {
         console.log(error);
@@ -20,11 +20,13 @@ function submitButtonClicked(q, u, s1, s2) {
     }
     s1(-1);
     s2("");
+    s3("");
 
 
 }
 function Student() {
     const [questionText, setQuestionText] = useState("");
+    const [usernameText, setUsernameText] = useState("");
     const [understandingValue, setUnderstanding] = useState(-1);
 
 
@@ -60,9 +62,11 @@ function Student() {
             <Typography>
                 Enter question for the lecturer here:
             </Typography>
+            <TextField fullWidth multiline variant="filled" value={usernameText} id="outlined-multiline-static" label="Username" onChange={e => setUsernameText(e.target.value)} />
+            <br />
             <TextField fullWidth multiline variant="filled" value={questionText} id="outlined-multiline-static" label="Question" onChange={e => setQuestionText(e.target.value)} />
             <br />
-            <Button variant="outlined" onClick={() => submitButtonClicked(questionText, understandingValue, setUnderstanding, setQuestionText)} >Submit</Button>
+            <Button variant="outlined" onClick={() => submitButtonClicked(questionText, understandingValue, setUnderstanding, setQuestionText, setUsernameText, usernameText)} >Submit</Button>
 
         </Box >
     );

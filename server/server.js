@@ -9,16 +9,21 @@ const dbo = require("./db/conn");
 
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
-
 const oneDay = 1000 * 60 * 60 * 24;
-
 //session middleware
 app.use(sessions({
   secret: process.env.SESSION_SECRET,
   saveUninitialized:true,
-  cookie: { maxAge: oneDay },
-  resave: false
+  cookie: {
+    maxAge: oneDay,
+    httpOnly: false // <- set httpOnly to false
+  },
+  resave: false,
+  domain: "http://localhost:5000"
 }));
+app.use(cookieParser());
+// a variable to save a session
+var session;
 
 var corsOptions = {
   origin: 'http://localhost:3000',

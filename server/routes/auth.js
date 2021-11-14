@@ -7,6 +7,24 @@ const app = express.Router();
 
 app.use(express.json());
 
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
+const oneDay = 1000 * 60 * 60 * 24;
+//session middleware
+app.use(sessions({
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized:true,
+  cookie: {
+    maxAge: oneDay,
+    httpOnly: false // <- set httpOnly to false
+  },
+  resave: false,
+  domain: "http://localhost:5000"
+}));
+app.use(cookieParser());
+// a variable to save a session
+var session;
+
 
 // This will help us connect to the database
 const dbo = require("../db/conn");
@@ -72,6 +90,7 @@ app.route("/login").post(function (req, res) {
             res.json({
               authSuccess: true
             })
+            console.log(session);
           }
         });
         search.on('error', function(error) {

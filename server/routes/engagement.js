@@ -14,10 +14,28 @@ const dbo = require("../db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 // const { session } = require("passport");
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
+const oneDay = 1000 * 60 * 60 * 24;
+//session middleware
+app.use(sessions({
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized:true,
+  cookie: {
+    maxAge: oneDay,
+    httpOnly: false // <- set httpOnly to false
+  },
+  resave: false,
+  domain: "http://localhost:5000"
+}));
+app.use(cookieParser());
+// a variable to save a session
+var session;
 
 app.route("/insert-data").post(function (req, response) {
     let db_connect = dbo.getDb();
     session=req.session;
+    console.log(session);
     if (session.userid != null) {
         let myobj = {
             understanding: req.body.understanding,
