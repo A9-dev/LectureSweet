@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import VerticalBar from "./VerticalBar.js";
 import ChatList from "./Questions.js";
-
+import LineChart from "./attentionChart.js"
 function App() {
   return (
     <div>
@@ -11,6 +11,7 @@ function App() {
         <Grid item xs={6}>
 
           <VerticalBar />
+          <LineChart />
 
         </Grid>
         <Grid item xs={6}>
