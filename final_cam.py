@@ -16,10 +16,12 @@ def movement(img, total, iteration):
                 total += 1
 
     if(iteration == interval):
-        score = abs(4 * (total - 11100000))
+        score = 4 * (total - 11100000)
         score = (score / 4260000) * 100
         if (score >= 100):
             score = 100
+        elseif (score <= 0):
+            score = 0
         total = 0
         iteration = 0
 
