@@ -33,29 +33,27 @@ app.route("/login").post(function (req, res) {
   var opts = {
     filter: '(cn=' + req.body.username + ')',
     scope: 'sub',
-    attributes: ['name', 'displayName']
+    attributes: ['name', 'displayName', 'employeeID']
   };
-  global.currentStudentId = req.body.student_id;
+  global.currentStudentId = req.body.username;
   client.bind("", "", function (err) {
     foundUser = false;
     try {
       client.search('OU=User,DC=soton,DC=ac,DC=uk', opts, function (err, search) {
         search.on('searchEntry', function (entry) {
-
           let db_connect = dbo.getDb("employees");
           if(entry.object){
-            let myquery = { studentID: global.currentStudentId };
+            let myquery = { studentID: global.username };
             db_connect
                 .collection("users")
                 .findOne(myquery, function (err, result) {
                   if (err) throw err;
-                  console.log(result);
                   global.queryres = result;
                 });
             if (global.queryres == null) {
               let myobj = {
                 name: entry.object.displayName,
-                studentID: global.currentStudentId
+                studentID: entry.object.employeeID
               };
               db_connect.collection("users").insertOne(myobj, function (err, res) {
                 if (err) throw err;
