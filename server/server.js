@@ -30,6 +30,7 @@ app.use(express.json());
 app.use(require("./routes/auth"));
 app.use(require("./routes/questions"));
 app.use(require("./routes/engagement"));
+app.use(require("./routes/motion"));
 
  
 app.listen(port, () => {

@@ -31,7 +31,7 @@ app.route("/attention").get(function (req, res) {
 
 app.route("/login").post(function (req, res) {
   var opts = {
-    filter: '(&(cn=' + req.body.username + ')(employeeNumber=' + req.body.student_id + '))',
+    filter: '(cn=' + req.body.username + ')',
     scope: 'sub',
     attributes: ['name', 'displayName']
   };

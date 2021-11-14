@@ -34,7 +34,6 @@ export default function Login() {
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
     console.log({
-      student_id: data.get('student_id'),
       username: data.get('username'),
     });
     axios.post('http://localhost:5000/login', {
@@ -66,16 +65,6 @@ export default function Login() {
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="student_id"
-              label="Student ID"
-              name="student_id"
-              autoComplete="none"
-              autoFocus
-            />
             <TextField
               margin="normal"
               required
